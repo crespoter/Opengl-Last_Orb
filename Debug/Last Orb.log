@@ -1,6 +1,8 @@
 ﻿  main.cpp
-f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\main.cpp(170): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\main.cpp(176): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\main.cpp(177): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\main.cpp(174): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\main.cpp(187): warning C4305: 'argument': truncation from 'double' to 'float'
+f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\main.cpp(188): warning C4305: 'argument': truncation from 'double' to 'float'
+f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\main.cpp(190): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\main.cpp(191): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   Last Orb.vcxproj -> F:\Crespoters Technological Marvels\Game Development\Opengl Projects\Last Orb\Debug\Last Orb.exe
   Last Orb.vcxproj -> F:\Crespoters Technological Marvels\Game Development\Opengl Projects\Last Orb\Debug\Last Orb.pdb (Partial PDB)

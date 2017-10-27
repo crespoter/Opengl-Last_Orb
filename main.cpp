@@ -123,6 +123,10 @@ int main()
 
 
 
+
+
+
+
 	Shader backgroundShader("backgroundShader.vs", "backgroundShader.fs");
 	Shader playerShader("playerShader.vs", "playerShader.fs");
 	Camera camera(glm::vec3(0.0f, 0.0f, 1.0f));
@@ -164,14 +168,24 @@ int main()
 	playerShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
 	playerShader.setVec3("dirLight.diffuse", 0.6f, 0.6f, 0.6f);
 	playerShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
-
+	playerShader.setFloat("material.shininess", 32.0f);
 
 
 	lastFrame = glfwGetTime();
 	while (!glfwWindowShouldClose(window))
 	{
 		//DEBUG
-		glm::vec3 meteorPosition = glm::vec3(5 * glm::sin((float)glfwGetTime()), 5 * glm::cos((float)glfwGetTime()),0.0);
+		playerShader.use();
+		glm::vec3 meteorPosition = glm::vec3(5 * glm::sin((float)glfwGetTime()), 5 * glm::cos((float)glfwGetTime()),0.0f);
+
+		playerShader.setVec3("viewPos", camera.m_position);
+		playerShader.setVec3("pointlight.position", meteorPosition);
+		playerShader.setVec3("pointlight.ambient", 0.05f, 0.05f, 0.05f);
+		playerShader.setVec3("pointlight.diffuse", 0.8f, 0.8f, 0.8f);
+		playerShader.setVec3("pointlight.specular", 2.0f, 2.0f, 2.0f);
+		playerShader.setFloat("pointlight.constant", 1.0f);
+		playerShader.setFloat("pointlight.linear", 0.09);
+		playerShader.setFloat("pointlight.quadratic", 0.032);
 		//DEBUG END
 		deltaTime = glfwGetTime() - lastFrame;
 		lastFrame = glfwGetTime();
