@@ -1,2 +1,4 @@
 LAST ORB
-This game focuses on controlling a spaceship to out the opposing spaceship . The world would be too dark to see without the flashligh
+
+This is an opengl(3.3) project which involves controlling a spaceship and shooting down hazards and enemies
+Models are loaded using assimp and lighting is done using phong method.
