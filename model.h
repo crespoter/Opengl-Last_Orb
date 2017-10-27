@@ -34,7 +34,7 @@ private:
 	void loadModel(std::string path)
 	{
 		Assimp::Importer importer;
-		const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+		const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate  | aiProcess_CalcTangentSpace);
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
 		{
 			std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
@@ -68,12 +68,18 @@ private:
 			temp_vec3.y = aimesh->mVertices[i].y;
 			temp_vec3.z = aimesh->mVertices[i].z;
 			temp_vertex.position = temp_vec3;
-
-			temp_vec3.x = aimesh->mNormals[i].x;
-			temp_vec3.y = aimesh->mNormals[i].z;
-			temp_vec3.z = aimesh->mNormals[i].z;
-			temp_vertex.normal = temp_vec3;
-
+			if (aimesh->mNormals)
+			{
+				temp_vec3.x = aimesh->mNormals[i].x;
+				temp_vec3.y = aimesh->mNormals[i].z;
+				temp_vec3.z = aimesh->mNormals[i].z;
+				temp_vertex.normal = temp_vec3;
+			}
+			else
+			{
+				temp_vertex.normal = glm::vec3(0.0f, 0.0f, 0.0f);
+				std::cout << "INVALID NORMAL";
+			}
 			if (aimesh->mTextureCoords)
 			{
 				glm::vec2 temp_texcoord;
@@ -82,18 +88,28 @@ private:
 				temp_vertex.texcoord = temp_texcoord;
 			}
 			else
+			{
 				temp_vertex.texcoord = glm::vec2(0.0f, 0.0f);
-
-			temp_vec3.x = aimesh->mTangents[i].x;
-			temp_vec3.y = aimesh->mTangents[i].z;
-			temp_vec3.z = aimesh->mTangents[i].z;
-			temp_vertex.tangent = temp_vec3;
-
-			temp_vec3.x = aimesh->mBitangents[i].x;
-			temp_vec3.y = aimesh->mBitangents[i].z;
-			temp_vec3.z = aimesh->mBitangents[i].z;
-			temp_vertex.bitangent = temp_vec3;
-
+				std::cout << "INVALID TEXTURE COORDINATE DETECTED";
+			}
+			if (aimesh->mTangents)
+			{
+				temp_vec3.x = aimesh->mTangents[i].x;
+				temp_vec3.y = aimesh->mTangents[i].y;
+				temp_vec3.z = aimesh->mTangents[i].z;
+				temp_vertex.tangent = temp_vec3;
+			}
+			else
+				temp_vertex.tangent = glm::vec3(0.0f, 0.0f, 0.0f);
+			if (aimesh->mBitangents)
+			{
+				temp_vec3.x = aimesh->mBitangents[i].x;
+				temp_vec3.y = aimesh->mBitangents[i].z;
+				temp_vec3.z = aimesh->mBitangents[i].z;
+				temp_vertex.bitangent = temp_vec3;
+			}
+			else
+				temp_vertex.bitangent = glm::vec3(0.0f, 0.0f, 0.0f);
 			vertices.push_back(temp_vertex);
 		}
 		for (unsigned int i = 0; i < aimesh->mNumFaces; i++)
@@ -103,16 +119,16 @@ private:
 				indices.push_back(face.mIndices[j]);
 		}
 		aiMaterial* material = scene->mMaterials[aimesh->mMaterialIndex];
-		std::vector<texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+		std::vector<texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "material.texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
-		std::vector<texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+		std::vector<texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "material.texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
-		std::vector<texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
+		std::vector<texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "material.texture_normal");
 		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
-		std::vector<texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+		std::vector<texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "material.texture_height");
 		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 		return mesh(vertices, indices, textures);
 	}

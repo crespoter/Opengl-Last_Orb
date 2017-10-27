@@ -154,6 +154,8 @@
   <ItemGroup>
     <None Include="backgroundShader.fs" />
     <None Include="backgroundShader.vs" />
+    <None Include="meteorShader.fs" />
+    <None Include="meteorShader.vs" />
     <None Include="playerShader.fs" />
     <None Include="playerShader.vs" />
   </ItemGroup>

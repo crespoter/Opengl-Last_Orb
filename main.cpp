@@ -1,4 +1,5 @@
 #define STB_IMAGE_IMPLEMENTATION
+#define DEBUG true
 #include<glad\glad.h>
 #include<GLFW\glfw3.h>
 
@@ -25,6 +26,8 @@ float lastFrame = 0.0f;
 float backgroundYTranslate = 0;
 float backgroundMovementSpeed = 0.1f;
 
+
+
 int main()
 {
 	glfwInit();
@@ -40,8 +43,8 @@ int main()
 	}
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);                       #DEBUG_FOR_OFF
+	 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
@@ -49,6 +52,76 @@ int main()
 		return -1;
 	}
 	glEnable(GL_DEPTH_TEST);
+
+
+
+
+
+
+
+
+
+
+
+	Shader meteorShader("meteorShader.vs", "meteorShader.fs");
+	float vertices[] = {
+		// positions          // normals           // texture coords
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
+		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+		0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+
+		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
+	};
+	unsigned int VBO;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	unsigned int lightVAO;
+	glGenVertexArrays(1, &lightVAO);
+	glBindVertexArray(lightVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	meteorShader.use();
+
+
+
 
 	Shader backgroundShader("backgroundShader.vs", "backgroundShader.fs");
 	Shader playerShader("playerShader.vs", "playerShader.fs");
@@ -75,18 +148,31 @@ int main()
 		0,3,1
 	};
 	mesh backgroundMesh;
-	backgroundMesh.addVertices(backgroundVertices, backgroundIndices,sizeof(backgroundVertices),sizeof(backgroundIndices));
+	backgroundMesh.addVertices(backgroundVertices, backgroundIndices, sizeof(backgroundVertices), sizeof(backgroundIndices));
 	mesh backgroundBufferMesh;
 	backgroundBufferMesh.addVertices(backgroundBufferVertices, backgroundIndices, sizeof(backgroundBufferVertices), sizeof(backgroundIndices));
 	unsigned int backgroundTextureObject = loadTexture("./Data/Textures/backgroundMain.jpg");
 	backgroundShader.use();
 	backgroundShader.setInt("texture0", 0);
 
-	model playerModel("./Data/Models/ship_player/Sample_Ship.obj.blend","ship_player");
+	model playerModel("./Data/Models/ship_player/ship_1.obj", "ship_player");
+
+
+	//LIGHTING FOR PLAYER
+	playerShader.use();
+	playerShader.setVec3("dirLight.direction", 0.0f, 0.5f, 0.0f);
+	playerShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
+	playerShader.setVec3("dirLight.diffuse", 0.6f, 0.6f, 0.6f);
+	playerShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+
+
 
 	lastFrame = glfwGetTime();
 	while (!glfwWindowShouldClose(window))
 	{
+		//DEBUG
+		glm::vec3 meteorPosition = glm::vec3(5 * glm::sin((float)glfwGetTime()), 5 * glm::cos((float)glfwGetTime()),0.0);
+		//DEBUG END
 		deltaTime = glfwGetTime() - lastFrame;
 		lastFrame = glfwGetTime();
 		backgroundYTranslate -= backgroundMovementSpeed * deltaTime;
@@ -95,10 +181,10 @@ int main()
 			backgroundYTranslate = 0;
 		}
 		glClearColor(0, 0, 1, 1);
-		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		if(DEBUG)
+			processInput(window);
 
-		//processInput(window);
-		
 		//BACKGROUND SETUP
 		backgroundShader.use();
 		glm::mat4 projection = glm::perspective(glm::radians(camera.m_zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -106,7 +192,7 @@ int main()
 		backgroundShader.setMat4("projection", projection);
 		backgroundShader.setMat4("view", view);
 		glm::mat4 model;
-		model = glm::scale(model, glm::vec3(1,1,1));
+		model = glm::scale(model, glm::vec3(1, 1, 1));
 		model = glm::translate(model, glm::vec3(0, backgroundYTranslate, 0));
 		backgroundShader.setMat4("model", model);
 		glActiveTexture(GL_TEXTURE0);
@@ -114,22 +200,33 @@ int main()
 		backgroundShader.use();
 		backgroundMesh.Draw();
 		backgroundBufferMesh.Draw();
-		
+
 		//PLAYER SETUP
 		playerShader.use();
 		playerShader.setMat4("projection", projection);
 		playerShader.setMat4("view", view);
 		glm::mat4 pmodel;
 		pmodel = glm::translate(pmodel, glm::vec3(0.0f, -0.25f, 0.0f));
-		pmodel = glm::scale(pmodel, glm::vec3(0.25, 0.25, 0.25));
-		pmodel = glm::rotate(pmodel, glm::radians(-90.0f), glm::vec3(0.0f,0.0f,1.0f));
-		pmodel = glm::rotate(pmodel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		pmodel = glm::scale(pmodel, glm::vec3(0.2, 0.2, 0.2));
+		pmodel = glm::rotate(pmodel,glm::radians(-90.0f), glm::vec3(0.0f, 1.0, 0.0f));
+		pmodel = glm::rotate(pmodel, glm::radians(-90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		playerShader.setMat4("model", pmodel);
 		playerModel.Draw(playerShader);
 
 
+		//METEOR SETUP
+		meteorShader.use();
+		glBindVertexArray(lightVAO);
+		meteorShader.setMat4("projection", projection);
+		meteorShader.setMat4("view", view);
+		glm::mat4 meteorModel;
+		meteorModel = glm::scale(meteorModel, glm::vec3(0.06, 0.06, 0.06));
+		meteorModel = glm::translate(meteorModel, meteorPosition);
+		meteorShader.setMat4("model", meteorModel);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
 		glfwSwapBuffers(window);
-		glfwPollEvents();	
+		glfwPollEvents();
 	}
 	backgroundMesh.Delete();
 	glfwTerminate();
@@ -142,7 +239,7 @@ unsigned int loadTexture(const char* path)
 	unsigned int texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
-	
+
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
@@ -169,6 +266,7 @@ void processInput(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
 }
 
 

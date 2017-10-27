@@ -52,5 +52,11 @@
     <None Include="playerShader.fs">
       <Filter>Source Files\Shaders</Filter>
     </None>
+    <None Include="meteorShader.vs">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="meteorShader.fs">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
