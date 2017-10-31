@@ -13,6 +13,7 @@
 #include "camera.h"
 #include "mesh.h"
 #include "model.h"
+#include "playerController.h"
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -25,8 +26,7 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 float backgroundYTranslate = 0;
 float backgroundMovementSpeed = 0.1f;
-
-
+PlayerController player(0,0,0,0.4,80);
 
 int main()
 {
@@ -43,7 +43,7 @@ int main()
 	}
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);                       #DEBUG_FOR_OFF
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); 
 	 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
@@ -52,8 +52,9 @@ int main()
 		return -1;
 	}
 	glEnable(GL_DEPTH_TEST);
-
-
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
 
 
 
@@ -163,12 +164,13 @@ int main()
 
 
 	//LIGHTING FOR PLAYER
+
 	playerShader.use();
 	playerShader.setVec3("dirLight.direction", 0.0f, 0.5f, 0.0f);
 	playerShader.setVec3("dirLight.ambient", 0.1f, 0.1f, 0.1f);
-	playerShader.setVec3("dirLight.diffuse", 0.6f, 0.6f, 0.6f);
+	playerShader.setVec3("dirLight.diffuse",0.5f,0.5f, 0.5f);
 	playerShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
-	playerShader.setFloat("material.shininess", 32.0f);
+	playerShader.setFloat("material.shininess", 64.0f);
 
 
 	lastFrame = glfwGetTime();
@@ -176,14 +178,14 @@ int main()
 	{
 		//DEBUG
 		playerShader.use();
-		glm::vec3 meteorPosition = glm::vec3(5 * glm::sin((float)glfwGetTime()), 5 * glm::cos((float)glfwGetTime()),0.0f);
+		glm::vec3 meteorPosition = glm::vec3(5 * glm::sin((float)glfwGetTime()), 5 * glm::cos((float)glfwGetTime()),0.6f);
 
 		playerShader.setVec3("viewPos", camera.m_position);
 		playerShader.setVec3("pointlight.position", meteorPosition);
-		playerShader.setVec3("pointlight.ambient", 0.05f, 0.05f, 0.05f);
-		playerShader.setVec3("pointlight.diffuse", 0.8f, 0.8f, 0.8f);
-		playerShader.setVec3("pointlight.specular", 2.0f, 2.0f, 2.0f);
-		playerShader.setFloat("pointlight.constant", 1.0f);
+		playerShader.setVec3("pointlight.ambient", 0.01*1.0f, 0.01* 0.27f, 0.0);
+		playerShader.setVec3("pointlight.diffuse", 1.5f * 1.0f, 1.5f * 0.27f, 0.0f);
+		playerShader.setVec3("pointlight.specular", 3.0f*1.0f, 3.0f*0.27f, 3.0f*0.0f);
+		playerShader.setFloat("pointlight.constant", 0.1f);
 		playerShader.setFloat("pointlight.linear", 0.09);
 		playerShader.setFloat("pointlight.quadratic", 0.032);
 		//DEBUG END
@@ -196,8 +198,7 @@ int main()
 		}
 		glClearColor(0, 0, 1, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		if(DEBUG)
-			processInput(window);
+		processInput(window);
 
 		//BACKGROUND SETUP
 		backgroundShader.use();
@@ -206,8 +207,8 @@ int main()
 		backgroundShader.setMat4("projection", projection);
 		backgroundShader.setMat4("view", view);
 		glm::mat4 model;
-		model = glm::scale(model, glm::vec3(1, 1, 1));
-		model = glm::translate(model, glm::vec3(0, backgroundYTranslate, 0));
+		model = glm::scale(model, glm::vec3(1.1, 1.1, 1.1));
+		model = glm::translate(model, glm::vec3(0, backgroundYTranslate, -0.1));
 		backgroundShader.setMat4("model", model);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, backgroundTextureObject);
@@ -216,17 +217,19 @@ int main()
 		backgroundBufferMesh.Draw();
 
 		//PLAYER SETUP
+		glEnable(GL_CULL_FACE);
 		playerShader.use();
 		playerShader.setMat4("projection", projection);
 		playerShader.setMat4("view", view);
-		glm::mat4 pmodel;
+
+		glm::mat4 pmodel = player.Update(deltaTime);
 		pmodel = glm::translate(pmodel, glm::vec3(0.0f, -0.25f, 0.0f));
+		pmodel = glm::rotate(pmodel, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		pmodel = glm::rotate(pmodel, glm::radians(-90.0f), glm::vec3(0.0f, 0.0, 1.0f));	
 		pmodel = glm::scale(pmodel, glm::vec3(0.2, 0.2, 0.2));
-		pmodel = glm::rotate(pmodel,glm::radians(-90.0f), glm::vec3(0.0f, 1.0, 0.0f));
-		pmodel = glm::rotate(pmodel, glm::radians(-90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		playerShader.setMat4("model", pmodel);
 		playerModel.Draw(playerShader);
-
+		glDisable(GL_CULL_FACE);
 
 		//METEOR SETUP
 		meteorShader.use();
@@ -280,6 +283,12 @@ void processInput(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		player.setStatus(MOVE_LEFT);
+	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		player.setStatus(MOVE_RIGHT);
+	else
+		player.setStatus(STOP);
 
 }
 
