@@ -26,7 +26,7 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 float backgroundYTranslate = 0;
 float backgroundMovementSpeed = 0.1f;
-PlayerController player(0,0,0,0.4,80);
+PlayerController player(0,0,0,0.65,160);
 
 int main()
 {
@@ -173,6 +173,11 @@ int main()
 	playerShader.setFloat("material.shininess", 64.0f);
 
 
+
+
+
+
+	
 	lastFrame = glfwGetTime();
 	while (!glfwWindowShouldClose(window))
 	{
@@ -281,15 +286,68 @@ unsigned int loadTexture(const char* path)
 
 void processInput(GLFWwindow *window)
 {
+	bool primaryKeySet = false;
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
-	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		player.setStatus(MOVE_LEFT);
-	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		player.setStatus(MOVE_RIGHT);
-	else
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	{
+		if (primaryKeySet == false)
+		{
+			player.setStatus(MOVE_LEFT);
+			player.setSecondaryStatus(STOP);
+			primaryKeySet = true;
+		}
+		else
+		{
+			player.setSecondaryStatus(MOVE_LEFT);
+		}
+	}
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	{
+		if (primaryKeySet == false)
+		{
+			player.setStatus(MOVE_RIGHT);
+			player.setSecondaryStatus(STOP);
+			primaryKeySet = true;
+		}
+		else
+		{
+			player.setSecondaryStatus(MOVE_RIGHT);
+		}
+	}
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	{
+		if (primaryKeySet == false)
+		{
+			player.setStatus(MOVE_UP);
+			player.setSecondaryStatus(STOP);
+			primaryKeySet = true;
+		}
+		else
+		{
+			player.setSecondaryStatus(MOVE_UP);
+		}
+		
+	}
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		
+		if (primaryKeySet == false)
+		{
+			player.setStatus(MOVE_DOWN);
+			player.setSecondaryStatus(STOP);
+			primaryKeySet = true;
+		}
+		else
+		{
+			player.setSecondaryStatus(MOVE_DOWN);
+		}
+	}
+	if (primaryKeySet == false)
+	{
 		player.setStatus(STOP);
-
+		player.setSecondaryStatus(STOP);
+	}
 }
 
 

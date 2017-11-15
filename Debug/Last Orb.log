@@ -1,6 +1,14 @@
 ﻿  main.cpp
 f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\playercontroller.h(6): warning C4305: 'initializing': truncation from 'double' to 'float'
 f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\playercontroller.h(7): warning C4305: 'initializing': truncation from 'double' to 'float'
+f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\playercontroller.h(106): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\playercontroller.h(107): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\playercontroller.h(113): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\playercontroller.h(114): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\playercontroller.h(133): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\playercontroller.h(134): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\playercontroller.h(140): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\playercontroller.h(141): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\main.cpp(29): warning C4305: 'argument': truncation from 'double' to 'float'
 f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\main.cpp(176): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 f:\crespoters technological marvels\game development\opengl projects\last orb\last orb\main.cpp(185): warning C4305: 'argument': truncation from 'double' to 'float'
