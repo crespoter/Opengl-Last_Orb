@@ -10,7 +10,9 @@ enum Camera_Movement
 	FORWARD,
 	BACKWARD,
 	LEFT,
-	RIGHT
+	RIGHT,
+	TOPLEFT,
+	TOPRIGHT
 };
 const float YAW = -90.0f;
 const float PITCH = 0.0f;
@@ -52,6 +54,15 @@ public:
 			m_position -= m_right * velocity;
 		else if (direction == RIGHT)
 			m_position += m_right * velocity;
+		else if (direction == TOPRIGHT)
+		{
+			m_position += m_cameraUp * velocity;
+		}
+		else if (direction == TOPLEFT)
+		{
+			m_position -= m_cameraUp * velocity;
+		}
+
 	}
 	void rotateCamera(float deltaYaw, float deltaPitch,bool constrainPitch = true)
 	{

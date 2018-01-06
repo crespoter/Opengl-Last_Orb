@@ -24,6 +24,9 @@
     <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -59,6 +62,39 @@
       <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="meteorShader.fs">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="framebuffer.vs">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="framebuffer.fs">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="skybox.vs">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="skybox.fs">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="exploder.gs">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="normalCalculator.gs">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="floorshadow.vs">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="planeShader.vs">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="planeShader.fs">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="depthShader.vs">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="depthShader.fs">
       <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>

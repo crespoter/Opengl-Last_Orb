@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
@@ -155,10 +156,21 @@
   <ItemGroup>
     <None Include="backgroundShader.fs" />
     <None Include="backgroundShader.vs" />
+    <None Include="depthShader.fs" />
+    <None Include="depthShader.vs" />
+    <None Include="exploder.gs" />
+    <None Include="floorshadow.vs" />
+    <None Include="framebuffer.fs" />
+    <None Include="framebuffer.vs" />
     <None Include="meteorShader.fs" />
     <None Include="meteorShader.vs" />
+    <None Include="normalCalculator.gs" />
+    <None Include="planeShader.fs" />
+    <None Include="planeShader.vs" />
     <None Include="playerShader.fs" />
     <None Include="playerShader.vs" />
+    <None Include="skybox.fs" />
+    <None Include="skybox.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
